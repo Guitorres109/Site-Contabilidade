@@ -1,0 +1,17 @@
+:root{
+    --ink-green:#1C3D2E;
+    --ink-green-light:#2C5745;
+    --paper:#F3F4EE;
+    --paper-dim:#EAEBE2;
+    --gold:#B8862B;
+    --gold-light:#D3A54C;
+    --ledger-line:#D9DAC9;
+    --ink-black:#1A1A18;
+    --ink-black-70: rgba(26,26,24,0.7);
+    --ink-black-50: rgba(26,26,24,0.5);
+    --card-bg:#FFFFFF;
+    --radius:6px;
+    --max-w:1180px;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
