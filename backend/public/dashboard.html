@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Painel — Contabilidade Aruja</title>
+<link rel="stylesheet" href="style.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,500;1,9..144,600&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<div class="shell">
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <div class="brand">Contabilidade <span>Aruja</span></div>
+    <div class="brand-sub">Painel administrativo</div>
+    <nav class="side-nav" id="sideNav">
+      <a class="side-link active" data-tab="dashboard">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="8" height="8" rx="1"/><rect x="13" y="3" width="8" height="8" rx="1"/><rect x="3" y="13" width="8" height="8" rx="1"/><rect x="13" y="13" width="8" height="8" rx="1"/></svg>
+        Visão geral
+      </a>
+      <a class="side-link" data-tab="usuarios">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.4 3.6-7 8-7s8 2.6 8 7"/></svg>
+        Usuários <span class="count" id="countUsuarios">0</span>
+      </a>
+      <a class="side-link" data-tab="comentarios">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M21 11.5a8.5 8.5 0 0 1-8.5 8.5c-1.4 0-2.7-.3-3.9-.9L3 20l1-4.9A8.5 8.5 0 1 1 21 11.5Z"/></svg>
+        Comentários <span class="count" id="countComentarios">0</span>
+      </a>
+      <a class="side-link" data-tab="orcamentos">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 4h16v16H4z"/><path d="M8 9h8M8 13h8M8 17h4"/></svg>
+        Orçamentos <span class="count" id="countOrcamentos">0</span>
+      </a>
+    </nav>
+    <div class="sidebar-foot">
+      <div>© 2026 Contabilidade Aruja</div>
+      <div class="op-badge" id="opBadge" title="Clique para sair" style="cursor:pointer;">
+        <div class="op-avatar" id="opAvatar">EA</div>
+        <div>
+          <div class="op-name" id="opName">Eduardo Almeida</div>
+          <div class="op-role" id="opRole">Administrador</div>
+        </div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- MAIN -->
+  <main class="main">
+    <div class="topbar">
+      <div>
+        <div class="topbar-title" id="pageTitle">Visão geral</div>
+        <div class="topbar-date" id="pageDate"></div>
+      </div>
+      <div class="search-box">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
+        <input id="globalSearch" type="text" placeholder="Buscar nome, e-mail ou mensagem...">
+      </div>
+    </div>
+
+    <div class="content">
+
+      <!-- DASHBOARD -->
+      <section class="tab-panel active" id="tab-dashboard">
+        <div class="stat-row">
+          <div class="stat-card">
+            <div class="stat-label">Usuários ativos</div>
+            <div class="stat-num" id="statUsuarios">—</div>
+            <div class="stat-delta up">↑ equipe em dia</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-label">Comentários pendentes</div>
+            <div class="stat-num" id="statComentarios">—</div>
+            <div class="stat-delta">aguardando moderação</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-label">Orçamentos novos</div>
+            <div class="stat-num" id="statOrcamentosNovos">—</div>
+            <div class="stat-delta up">precisam de retorno</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-label">Taxa de resposta</div>
+            <div class="stat-num" id="statTaxa">—</div>
+            <div class="stat-delta">últimos 30 dias</div>
+          </div>
+        </div>
+
+        <div class="panel">
+          <div class="panel-head">
+            <div>
+              <h2>Últimas solicitações</h2>
+              <div class="panel-sub">Movimentações mais recentes do site</div>
+            </div>
+            <a class="btn btn-ghost btn-sm" data-tab="orcamentos">Ver todas</a>
+          </div>
+          <div id="dashboardRecent"></div>
+        </div>
+      </section>
+
+      <!-- USUÁRIOS -->
+      <section class="tab-panel" id="tab-usuarios">
+        <div class="panel">
+          <div class="panel-head">
+            <div>
+              <h2>Usuários do painel</h2>
+              <div class="panel-sub">Contadores e assistentes com acesso ao sistema</div>
+            </div>
+            <button class="btn btn-primary" id="btnNovoUsuario">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
+              Novo usuário
+            </button>
+          </div>
+          <div style="overflow-x:auto;">
+            <table>
+              <thead>
+                <tr><th>Nome</th><th>Cargo</th><th>Status</th><th>Desde</th><th></th></tr>
+              </thead>
+              <tbody id="usuariosBody"></tbody>
+            </table>
+          </div>
+          <div class="empty" id="usuariosEmpty" style="display:none;">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.4 3.6-7 8-7s8 2.6 8 7"/></svg>
+            <p>Nenhum usuário encontrado com esse filtro.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- COMENTÁRIOS -->
+      <section class="tab-panel" id="tab-comentarios">
+        <div class="panel">
+          <div class="panel-head">
+            <div>
+              <h2>Comentários do site</h2>
+              <div class="panel-sub">Depoimentos enviados por clientes, aguardando publicação</div>
+            </div>
+            <div class="filter-row" id="filtroComentarios">
+              <button class="chip active" data-status="todos">Todos</button>
+              <button class="chip" data-status="Pendente">Pendentes</button>
+              <button class="chip" data-status="Aprovado">Aprovados</button>
+              <button class="chip" data-status="Reprovado">Reprovados</button>
+            </div>
+          </div>
+          <div class="comment-list" id="comentariosList"></div>
+          <div class="empty" id="comentariosEmpty" style="display:none;">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 11.5a8.5 8.5 0 0 1-8.5 8.5c-1.4 0-2.7-.3-3.9-.9L3 20l1-4.9A8.5 8.5 0 1 1 21 11.5Z"/></svg>
+            <p>Nenhum comentário nesse filtro.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- ORÇAMENTOS -->
+      <section class="tab-panel" id="tab-orcamentos">
+        <div class="panel">
+          <div class="panel-head">
+            <div>
+              <h2>Solicitações de orçamento</h2>
+              <div class="panel-sub">Pedidos recebidos pelo formulário e WhatsApp do site</div>
+            </div>
+            <div class="filter-row" id="filtroOrcamentos">
+              <button class="chip active" data-status="todos">Todos</button>
+              <button class="chip" data-status="Novo">Novos</button>
+              <button class="chip" data-status="Em contato">Em contato</button>
+              <button class="chip" data-status="Respondido">Respondidos</button>
+              <button class="chip" data-status="Arquivado">Arquivados</button>
+            </div>
+          </div>
+          <div style="overflow-x:auto;">
+            <table>
+              <thead>
+                <tr><th>Solicitante</th><th>Interesse</th><th>Recebido em</th><th>Status</th><th></th></tr>
+              </thead>
+              <tbody id="orcamentosBody"></tbody>
+            </table>
+          </div>
+          <div class="empty" id="orcamentosEmpty" style="display:none;">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 4h16v16H4z"/><path d="M8 9h8M8 13h8M8 17h4"/></svg>
+            <p>Nenhuma solicitação nesse filtro.</p>
+          </div>
+        </div>
+      </section>
+
+    </div>
+  </main>
+</div>
+
+<!-- MODAL: usuário -->
+<div class="modal-backdrop" id="modalUsuario">
+  <div class="modal">
+    <div class="modal-head">
+      <h3 id="modalUsuarioTitle">Novo usuário</h3>
+      <button class="modal-close" data-close><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 6l12 12M18 6 6 18"/></svg></button>
+    </div>
+    <div class="modal-body">
+      <div class="form-row"><label>Nome completo</label><input id="fNome" type="text" placeholder="Ex: Marina Costa"></div>
+      <div class="form-row"><label>E-mail</label><input id="fEmail" type="email" placeholder="nome@contabilidadearuja.com.br"></div>
+      <div class="form-row"><label>Senha</label><input id="fSenha" type="password" placeholder="Deixe em branco para manter a atual"></div>
+      <div class="form-row"><label>Cargo</label>
+        <select id="fCargo">
+          <option>Administrador</option>
+          <option>Contador</option>
+          <option>Assistente</option>
+        </select>
+      </div>
+      <div class="form-row"><label>Status</label>
+        <select id="fStatus">
+          <option value="1">Ativo</option>
+          <option value="0">Inativo</option>
+        </select>
+      </div>
+    </div>
+    <div class="modal-foot">
+      <button class="btn btn-ghost btn-sm" data-close>Cancelar</button>
+      <button class="btn btn-primary btn-sm" id="btnSalvarUsuario">Salvar usuário</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL: detalhe orçamento -->
+<div class="modal-backdrop" id="modalOrcamento">
+  <div class="modal">
+    <div class="modal-head">
+      <h3>Detalhe da solicitação</h3>
+      <button class="modal-close" data-close><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 6l12 12M18 6 6 18"/></svg></button>
+    </div>
+    <div class="modal-body" id="orcamentoDetalheBody"></div>
+    <div class="modal-foot">
+      <button class="btn btn-ghost btn-sm" data-close>Fechar</button>
+      <a class="btn btn-primary btn-sm" id="btnResponderWhatsapp" href="#" target="_blank">Responder no WhatsApp</a>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL: confirmar exclusão -->
+<div class="modal-backdrop" id="modalConfirm">
+  <div class="modal" style="max-width:380px;">
+    <div class="modal-head">
+      <h3>Confirmar exclusão</h3>
+      <button class="modal-close" data-close><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 6l12 12M18 6 6 18"/></svg></button>
+    </div>
+    <div class="modal-body"><p id="confirmText" style="font-size:0.92rem; color:var(--ink-black-70);"></p></div>
+    <div class="modal-foot">
+      <button class="btn btn-ghost btn-sm" data-close>Cancelar</button>
+      <button class="btn btn-primary btn-sm" style="background:var(--red);" id="btnConfirmDelete">Excluir</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6 9 17l-5-5"/></svg>
+  <span id="toastText">Salvo com sucesso.</span>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
