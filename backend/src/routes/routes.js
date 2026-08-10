@@ -272,8 +272,9 @@ router.get('/orcamentos/:id', auth, async (req, res) => {
 
 router.post('/orcamentos', limiter, async (req, res) => {
   try {
-    const { nome, email, telefone, assunto, status } = req.body;
-    const novoOrcamento = await orcamento.create({ nome, email, telefone, assunto, status });
+    console.log(req.body);
+    const { nome, email, telefone, assunto} = req.body;
+    const novoOrcamento = await orcamento.create({ nome, email, telefone, assunto});
     res.status(201).json(novoOrcamento);
   } catch (e) {
     console.error("Erro ao criar orçamento:", e);

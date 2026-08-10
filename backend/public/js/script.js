@@ -6,14 +6,14 @@
 // Ex.: se o server.js tiver app.use('/api', router),
 // troque para 'http://localhost:3000/api'.
 // ==========================================================
-const API_BASE = 'http://localhost:3000';
+const API_BASE = 'http://localhost:3000/api';
 
 // ---------- GUARDA DE AUTENTICAÇÃO ----------
 const TOKEN = localStorage.getItem('token');
 const USUARIO_LOGADO = JSON.parse(localStorage.getItem('usuario') || 'null');
 
 if (!TOKEN) {
-  window.location.href = 'login.html';
+  window.location.href = '/';
 }
 
 // ---------- ESTADO ----------
@@ -41,7 +41,7 @@ async function apiFetch(path, options = {}) {
     // token inválido/expirado -> volta pro login
     localStorage.removeItem('token');
     localStorage.removeItem('usuario');
-    window.location.href = 'login.html';
+    window.location.href = '/';
     return null;
   }
 
@@ -302,6 +302,38 @@ document.getElementById('filtroComentarios').addEventListener('click', e => {
   renderComentarios();
 });
 
+// ---------- NOVO COMENTÁRIO ----------
+document.getElementById('btnNovoComentario').addEventListener('click', () => {
+  document.getElementById('cNomeAutor').value = '';
+  document.getElementById('cDescAutor').value = '';
+  document.getElementById('cConteudo').value = '';
+  document.getElementById('cStatus').value = 'Pendente';
+  abrirModal('modalComentario');
+});
+
+document.getElementById('btnSalvarComentario').addEventListener('click', async () => {
+  const autor = document.getElementById('cNomeAutor').value.trim();
+  const desc_autor = document.getElementById('cDescAutor').value.trim();
+  const conteudo = document.getElementById('cConteudo').value.trim();
+  const status = document.getElementById('cStatus').value;
+
+  if (!autor || !conteudo) {
+    toast('Preencha ao menos o nome do autor e o comentário.');
+    return;
+  }
+
+  const payload = { autor, desc_autor, conteudo, status };
+
+  try {
+    await apiFetch('/comentarios', { method: 'POST', body: JSON.stringify(payload) });
+    toast('Comentário enviado com sucesso.');
+    fecharModal('modalComentario');
+    await carregarTudo();
+  } catch (err) {
+    toast(err.message);
+  }
+});
+
 function renderComentarios(filtroBusca = '') {
   const termo = filtroBusca.trim().toLowerCase();
   let lista = state.comentarios.filter(c => {
@@ -519,7 +551,7 @@ if (opBadge) {
     if (confirm('Deseja sair do painel?')) {
       localStorage.removeItem('token');
       localStorage.removeItem('usuario');
-      window.location.href = 'login.html';
+      window.location.href = '/';
     }
   });
 }

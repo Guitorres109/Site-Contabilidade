@@ -134,11 +134,17 @@
               <h2>Comentários do site</h2>
               <div class="panel-sub">Depoimentos enviados por clientes, aguardando publicação</div>
             </div>
-            <div class="filter-row" id="filtroComentarios">
-              <button class="chip active" data-status="todos">Todos</button>
-              <button class="chip" data-status="Pendente">Pendentes</button>
-              <button class="chip" data-status="Aprovado">Aprovados</button>
-              <button class="chip" data-status="Reprovado">Reprovados</button>
+            <div style="display:flex; gap:10px; align-items:center; flex-wrap:wrap;">
+              <div class="filter-row" id="filtroComentarios">
+                <button class="chip active" data-status="todos">Todos</button>
+                <button class="chip" data-status="Pendente">Pendentes</button>
+                <button class="chip" data-status="Aprovado">Aprovados</button>
+                <button class="chip" data-status="Reprovado">Reprovados</button>
+              </div>
+              <button class="btn btn-primary btn-sm" id="btnNovoComentario">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
+                Novo comentário
+              </button>
             </div>
           </div>
           <div class="comment-list" id="comentariosList"></div>
@@ -216,6 +222,34 @@
   </div>
 </div>
 
+<!-- MODAL: novo comentário -->
+<div class="modal-backdrop" id="modalComentario">
+  <div class="modal">
+    <div class="modal-head">
+      <h3>Novo comentário</h3>
+      <button class="modal-close" data-close><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 6l12 12M18 6 6 18"/></svg></button>
+    </div>
+    <div class="modal-body">
+      <div class="form-row"><label>Nome do autor</label><input id="cNomeAutor" type="text" placeholder="Ex: João Pereira"></div>
+      <div class="form-row"><label>Descrição do autor</label><input id="cDescAutor" type="text" placeholder="Ex: Cliente desde 2022"></div>
+      <div class="form-row"><label>Comentário</label>
+        <textarea id="cConteudo" rows="4" placeholder="Texto do depoimento..." style="width:100%; padding:10px; border:1px solid var(--ledger-line); border-radius:4px; font-family:inherit; font-size:0.92rem; resize:vertical;"></textarea>
+      </div>
+      <div class="form-row"><label>Status</label>
+        <select id="cStatus">
+          <option value="Pendente">Pendente</option>
+          <option value="Aprovado">Aprovado</option>
+          <option value="Reprovado">Reprovado</option>
+        </select>
+      </div>
+    </div>
+    <div class="modal-foot">
+      <button class="btn btn-ghost btn-sm" data-close>Cancelar</button>
+      <button class="btn btn-primary btn-sm" id="btnSalvarComentario">Enviar comentário</button>
+    </div>
+  </div>
+</div>
+
 <!-- MODAL: detalhe orçamento -->
 <div class="modal-backdrop" id="modalOrcamento">
   <div class="modal">
@@ -251,6 +285,6 @@
   <span id="toastText">Salvo com sucesso.</span>
 </div>
 
-<script src="script.js"></script>
+<script src="./js/script.js"></script>
 </body>
 </html>

@@ -55,19 +55,18 @@ const orcamento = {
   // ---------------------
   // CREATE
   // ---------------------
-  async create({ nome, email, telefone, assunto, status }) {
+  async create({ nome, email, telefone, assunto}) {
     await ready;
 
     const info = run(
       `INSERT INTO orcamentos
-      (nome, email, telefone, assunto, status)
-      VALUES (?, ?, ?, ?, ?)`,
+      (nome, email, telefone, assunto)
+      VALUES (?, ?, ?, ?)`,
       [
         nome,
         email,
         telefone,
         assunto,
-        status
       ]
     );
 
